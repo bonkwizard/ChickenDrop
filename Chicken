@@ -3,22 +3,22 @@
 --game ends when animal hits bottom
 
 function love.load()
-  chickenFace = love.graphics.newImage("chicken.png")
+  slowBro = love.graphics.newImage("slowbro.png")
   backgroundImage = love.graphics.newImage("bg.png")
-  slowBro = love.graphics.newImage("slow.png")
+  slowPoke = love.graphics.newImage("slowpoke.png")
 
   math.randomseed(os.time())
   math.random(); math.random(); math.random()
-  startx = {math.random(0, love.graphics.getWidth() - chickenFace:getWidth()), 
-            math.random(0, love.graphics.getWidth() - chickenFace:getWidth()),  
-            math.random(0, love.graphics.getWidth() - chickenFace:getWidth()),  
-            math.random(0, love.graphics.getWidth() - chickenFace:getWidth()), 
-            math.random(0, love.graphics.getWidth() - chickenFace:getWidth())}
-  starty = {0 - math.random(chickenFace:getHeight(), chickenFace:getHeight() * 2),
-            0 - math.random(chickenFace:getHeight(), chickenFace:getHeight() * 2),
-            0 - math.random(chickenFace:getHeight(), chickenFace:getHeight() * 2),
-            0 - math.random(chickenFace:getHeight(), chickenFace:getHeight() * 2),
-            0 - math.random(chickenFace:getHeight(), chickenFace:getHeight() * 2)}
+  startx = {math.random(0, love.graphics.getWidth() - 0.1 * slowBro:getWidth()), 
+            math.random(0, love.graphics.getWidth() - 0.1 * slowBro:getWidth()),  
+            math.random(0, love.graphics.getWidth() - 0.1 * slowBro:getWidth()),  
+            math.random(0, love.graphics.getWidth() - 0.1 * slowBro:getWidth()), 
+            math.random(0, love.graphics.getWidth() - 0.1 * slowBro:getWidth())}
+  starty = {0 - math.random(0.1 * slowBro:getHeight(), (0.1 * slowBro:getHeight()) * 2),
+            0 - math.random(0.1 * slowBro:getHeight(), (0.1 * slowBro:getHeight()) * 2),
+            0 - math.random(0.1 * slowBro:getHeight(), (0.1 * slowBro:getHeight()) * 2),
+            0 - math.random(0.1 * slowBro:getHeight(), (0.1 * slowBro:getHeight()) * 2),
+            0 - math.random(0.1 * slowBro:getHeight(), (0.1 * slowBro:getHeight()) * 2)}
   
   powerUpWidth = 0.1 * slowBro:getWidth()
   powerUpHeight = 0.1 * slowBro:getHeight()
@@ -30,7 +30,7 @@ function love.load()
   powerUpStart = 0
   powerUpDuration = 0
   powerUpCooldown = 0
-  chickenSpeed = 200
+  broSpeed = 200
 
 end
 
@@ -43,12 +43,12 @@ function love.mousepressed(x, y, button, istouch)
     --print("left mouse clicked")
     for i, v in ipairs(startx) do
       --if the mouse x and y is within the boundary of a chicken picture
-      if x >= startx[i] and x <= startx[i] + chickenFace:getWidth() and y >= starty[i] and y <= starty[i] + chickenFace:getHeight() then
+      if x >= startx[i] and x <= startx[i] + (0.1 * slowBro:getWidth()) and y >= starty[i] and y <= starty[i] + (0.1 * slowBro:getHeight()) then
         --print("in bounds")
         math.randomseed(os.time())
         math.random(); math.random(); math.random()
         --reset its y value (go back to the top)
-        starty[i] = math.random(chickenFace:getHeight(), chickenFace:getHeight() * 2) * -1 
+        starty[i] = math.random(0.1 * slowBro:getHeight(), (0.1 * slowBro:getHeight()) * 2) * -1 
       end
       --if the mouse x and y is within the boundary of a power up picture
       if x >= powerUpX and x <= powerUpX + powerUpWidth and y >= powerUpY and y <= powerUpY + powerUpHeight then
@@ -65,20 +65,20 @@ end
 function love.update(dt)
   for i, v in ipairs(starty) do
     --if chicken hits the bottom of the screen, lua quits (we lose)
-    if starty[i] + chickenFace:getHeight() >= love.graphics.getHeight() then
+    if starty[i] + (0.1 * slowBro:getHeight()) >= love.graphics.getHeight() then
       --print("over the edge")
       love.event.quit()
     end
     --chickens move down 
-    starty[i] = starty[i] + chickenSpeed * dt
+    starty[i] = starty[i] + broSpeed * dt
   end
 --start power up
   if powerUpStart == 1 then
     powerUpAppear = 1
-    chickenSpeed = 20
+    broSpeed = 20
     powerUpDuration = powerUpDuration + dt
     if powerUpDuration >= 5 then
-      chickenSpeed = 200
+      broSpeed = 200
       powerUpDuration = 0
       powerUpStart = 0
     end
@@ -103,10 +103,10 @@ function love.draw()
   love.graphics.draw(backgroundImage, 0, 0)
   --draw each chicken at their respective x and y
   for i, v in ipairs(startx) do
-    love.graphics.draw(chickenFace, startx[i], starty[i])
+    love.graphics.draw(slowBro, startx[i], starty[i], 0, 0.1, 0.1)
   end
   --draw power up
   if powerUpAppear == 0 then
-    love.graphics.draw(slowBro, powerUpX, powerUpY, 0, 0.1, 0.1) 
+    love.graphics.draw(slowPoke, powerUpX, powerUpY, 0, 0.1, 0.1) 
   end
 end
