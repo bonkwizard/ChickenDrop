@@ -32,7 +32,6 @@ function love.load()
   powerUpCooldown = 0
   chickenSpeed = 200
 
-  deltaTime = love.timer.getDelta()
 end
 
 -------------------------------------------------
@@ -106,6 +105,7 @@ function love.draw()
   for i, v in ipairs(startx) do
     love.graphics.draw(chickenFace, startx[i], starty[i])
   end
+  --draw power up
   if powerUpAppear == 0 then
     love.graphics.draw(slowBro, powerUpX, powerUpY, 0, 0.1, 0.1) 
   end
